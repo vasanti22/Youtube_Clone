@@ -8,7 +8,7 @@ const Sidebar = () => {
   if(isMenuOpen) return null; // Early Return Pattern
 
   return (
-    <div className='w-1/4'>
+    <div className='w-2/12 p-5'>
       <ul>
         <li>Home</li>
         <li>Shorts</li>
