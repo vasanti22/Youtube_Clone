@@ -1,6 +1,7 @@
 import React from 'react'
 import { toggleMenu } from '../Utils/appSlice';
 import { useDispatch } from 'react-redux';
+//import { Link } from 'react-router-dom';
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -12,17 +13,20 @@ const Header = () => {
     <div className='flex shadow-xl p-5'>
         <div className='w-80 flex'>
           <img 
-		  	onClick={()=>toggleMenuHandler()}
+		  	    onClick={()=>toggleMenuHandler()}
             className='h-10 cursor-pointer' 
             alt='menu' 
             src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png' 
           /> 
           
+         <a href="/">
           <img 
             className='h-10' 
             alt='Logo' 
             src='https://t3.ftcdn.net/jpg/03/00/38/90/360_F_300389025_b5hgHpjDprTySl8loTqJRMipySb1rO0I.jpg' 
-            />
+            /> 
+            </a>
+          
         </div>
         <div className='w-1/2'>
           <input 
