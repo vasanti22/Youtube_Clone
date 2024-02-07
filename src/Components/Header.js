@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { showSuggession, toggleMenu } from '../Utils/appSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { toggleMenu } from '../Utils/appSlice';
+import { useDispatch } from 'react-redux';
 import { YOUTUBE_SEARCH_API } from '../Utils/constants';
 import { FaSearch, FaWindowClose } from 'react-icons/fa';
+
+
 //import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -10,41 +12,34 @@ const Header = () => {
 	const toggleMenuHandler = () => {
 		dispatch(toggleMenu());
 	}
-  const isSuggestionBox = useSelector((store) => store.app.isSuggestionBox);
-
-  useEffect(() => {
-		dispatch(showSuggession());
-	}, []);
-
-  const showSuggessionHandler = () => {
-		dispatch(showSuggession());
-	}
+  
 
   const [searchText, setSearchText] = useState("");
-  
-  useEffect(() => {
-    const timer = setTimeout(() => getSearchData(), 3000);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
+  useEffect(() => {
+    const timer = setTimeout(() => getSearchData(), 200);
     return() => {
       clearTimeout(timer);
     } 
 
-  }, [searchText])
+  }, [searchText]);
 
   const getSearchData = async () => {
-    console.log("API CALL ==>"+searchText);
+   // console.log("API CALL ==>"+searchText);
     const data = await fetch(YOUTUBE_SEARCH_API + searchText);
-    const json = await data.json;
+    const json = await data.json();
+    //console.log(json);
+    setSuggestions(json[1]); 
   }
 
   const onClear = () => {
     setSearchText("");
-  };
-
-  
+  }
 
   return (
-    <div className='flex shadow-xl p-5'>
+    <div className='fixed top-0 z-10 bg-white w-full flex shadow-xl p-5'>
         <div className='w-80 flex'>
           <img 
 		  	    onClick={()=>toggleMenuHandler()}
@@ -69,24 +64,28 @@ const Header = () => {
             placeholder='Search' 
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onFocus={()=> setShowSuggestions(true)}
+            onBlur={()=>setShowSuggestions(false)}
             
           />
           <button className='m-2 absolute insert-0 top-1 right-1/4' onClick={onClear}><FaWindowClose /></button>
-          <button className='p-3 border border-gray-500 rounded-r-full' onClick={showSuggessionHandler}><FaSearch /></button>
-        {
-        !isSuggestionBox? "" :  
+          <button className='p-3 border border-gray-500 rounded-r-full'><FaSearch /></button>
           
-        <div className='absolute bg-white w-3/4 rounded-lg shadow-lg my-2 border-solid border border-gray-400'>
-          <ul>
-            <li className='p-1 hover:bg-gray-200'>Text</li>
-            <li className='p-1 hover:bg-gray-200'>Text</li>
-            <li className='p-1 hover:bg-gray-200'>Text</li>
-            <li className='p-1 hover:bg-gray-200'>Text</li>
-            <li className='p-1 hover:bg-gray-200'>Text</li>
-          </ul>
         </div>
-      }
-        </div>
+        { showSuggestions && (
+          <div className='fixed top-16 left-1/4 bg-white w-1/4 rounded-lg shadow-lg my-2'>
+            <ul>
+            {
+              suggestions.map((s) => (
+              <li className='flex px-2 align-middle hover:bg-gray-200'>
+                <FaSearch/>
+                <div className='p-2'>{s}</div>
+              </li>
+              ))
+            } 
+            </ul>
+          </div>
+        )}
         
 		<div>
 			user icon

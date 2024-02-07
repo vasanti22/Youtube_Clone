@@ -13,12 +13,10 @@ const appSlice = createSlice ({
         closeMenu:(state) => {
             state.isMenuOpen = true;
         },
-        showSuggession:(state) => {
-            state.isSuggestionBox = false;
-        }
+        
     },
 });
 
 
-export const { toggleMenu, closeMenu, showSuggession} = appSlice.actions;
+export const { toggleMenu, closeMenu} = appSlice.actions;
 export default appSlice.reducer;
