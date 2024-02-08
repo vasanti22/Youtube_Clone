@@ -3,15 +3,18 @@ import React, { useEffect } from 'react'
 const Comments = ({ comments }) => {
    // console.log(comments);
   const{ snippet }  = comments;
-  const { authorDisplayName, textDisplay } = snippet;
+  const { authorDisplayName, textDisplay, authorProfileImageUrl } = snippet;
 
 
   return (
     <div className='py-2'>
-        <ul>
+        <div className='flex'>
+          <img className='pr-4' alt="userimg" src={authorProfileImageUrl}/>
+          <ul>
             <li className='font-bold'>{authorDisplayName}</li>
             <li>{textDisplay}</li>
-        </ul>
+           </ul> 
+        </div>
     
     </div>
   )

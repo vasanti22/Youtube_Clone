@@ -23,7 +23,7 @@ const WatchPage = () => {
 			const data = await fetch(YOUTUBE_COMMENTS_API + "&videoId=" + searchParams.get("v"));
 			//console.log(data);
 			const json = await data.json();
-			//console.log(json);
+		//	console.log(json);
 			setComments(json.items);
 	  }
 
@@ -34,7 +34,7 @@ const WatchPage = () => {
 				height="549" 
 				src={"https://www.youtube.com/embed/" + searchParams.get("v") }
 				title="" 
-				frameBorder="0" 
+				FrameBorder="0" 
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
 				allowFullScreen>
 			</iframe>

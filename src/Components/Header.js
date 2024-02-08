@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { toggleMenu } from '../Utils/appSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { YOUTUBE_SEARCH_API } from '../Utils/constants';
 import { FaSearch, FaWindowClose } from 'react-icons/fa';
+import { cacheResults } from '../Utils/searchSlice';
 
 
 //import { Link } from 'react-router-dom';
@@ -18,8 +19,21 @@ const Header = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const searchCache = useSelector((store) => store.search);
+   
+
   useEffect(() => {
-    const timer = setTimeout(() => getSearchData(), 200);
+    const timer = setTimeout(() => {
+      
+      if (searchCache[searchText]){
+        setSuggestions(searchCache[searchText]); 
+      }
+      else {
+        getSearchData();
+      }
+     
+    }, 200);
+
     return() => {
       clearTimeout(timer);
     } 
@@ -27,11 +41,22 @@ const Header = () => {
   }, [searchText]);
 
   const getSearchData = async () => {
-   // console.log("API CALL ==>"+searchText);
+    console.log("API CALL ==>"+searchText);
     const data = await fetch(YOUTUBE_SEARCH_API + searchText);
     const json = await data.json();
     //console.log(json);
     setSuggestions(json[1]); 
+
+    dispatch(cacheResults({
+      [searchText]:json[1],
+    }));
+  }
+
+  const handleSearchText = (suggestion) => {
+    //console.log("hi");
+    setSearchText(suggestion);
+    setSuggestions([]);
+    
   }
 
   const onClear = () => {
@@ -76,18 +101,20 @@ const Header = () => {
           <div className='fixed top-16 left-1/4 bg-white w-1/4 rounded-lg shadow-lg my-2'>
             <ul>
             {
-              suggestions.map((s) => (
-              <li className='flex px-2 align-middle hover:bg-gray-200'>
-                <FaSearch/>
-                <div className='p-2'>{s}</div>
+              suggestions.map((suggestion) => (
+              <li className='flex px-2 align-middle hover:bg-gray-200' 
+                  key={suggestion} 
+                  onClick={() => handleSearchText(suggestion)}
+              >
+                {suggestion}
               </li>
               ))
             } 
             </ul>
           </div>
         )}
-        
 		<div>
+           
 			user icon
 		</div>
     </div>
