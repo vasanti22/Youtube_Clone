@@ -41,7 +41,7 @@ const Header = () => {
   }, [searchText]);
 
   const getSearchData = async () => {
-    console.log("API CALL ==>"+searchText);
+   // console.log("API CALL ==>"+searchText);
     const data = await fetch(YOUTUBE_SEARCH_API + searchText);
     const json = await data.json();
     //console.log(json);
@@ -54,7 +54,7 @@ const Header = () => {
 
   const handleSearchText = (suggestion) => {
     //console.log("hi");
-    setSearchText(suggestion);
+    searchText(suggestion);
     setSuggestions([]);
     
   }
@@ -64,7 +64,7 @@ const Header = () => {
   }
 
   return (
-    <div className='fixed top-0 z-10 bg-white w-full flex shadow-xl p-5'>
+    <div className='fixed top-0 z-10 bg-white w-full flex shadow-xl p-5 ro '>
         <div className='w-80 flex'>
           <img 
 		  	    onClick={()=>toggleMenuHandler()}

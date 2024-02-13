@@ -1,6 +1,7 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'; 
+import { FaHome, FaVideo, FaMusic, FaVimeoV } from 'react-icons/fa'; 
 
 const Sidebar = () => {
   const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
@@ -10,7 +11,7 @@ const Sidebar = () => {
   return (
     <div className='w-2/12 p-5'>
       <ul>
-        <li><Link to="/">Home</Link></li>
+        <li><Link to="/"><FaHome/>Home</Link></li>
         <li>Shorts</li>
         <li>Video</li>
         <li>Live</li>
@@ -27,7 +28,7 @@ const Sidebar = () => {
         <li>Music</li>
         <li>Sports</li>
         <li>Gaming</li>
-        <li>Movies</li>
+        <li><FaVideo/>Movies</li>
       </ul> 
     </div>
   )
