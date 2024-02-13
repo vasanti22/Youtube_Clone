@@ -14,7 +14,6 @@ const Header = () => {
 		dispatch(toggleMenu());
 	}
   
-
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
