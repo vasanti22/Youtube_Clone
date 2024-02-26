@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { YOUTUBE_VIDEO_API } from '../Utils/constants';
+import { YOUTUBE_VIDEO_API, FETCH_POPULAR_VIDEOS_BY_CATEGORY_ID } from '../Utils/constants';
 import VideoCards from './VideoCards';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const VideoContainer = () => {
   const[videos, setVideos] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
   
   useEffect(() => {
     getVideos();
-  }, []);
+  }, [category]);
   
   const getVideos = async () => {
-    const data = await fetch (YOUTUBE_VIDEO_API);
+    const data = await fetch (category? FETCH_POPULAR_VIDEOS_BY_CATEGORY_ID + category : YOUTUBE_VIDEO_API);
     const json = await data.json();
-   // console.log(json);
+   // console.log(json.items[0]);
     setVideos(json.items);
     
   }

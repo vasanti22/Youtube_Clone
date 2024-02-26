@@ -29,6 +29,7 @@ const WatchPage = () => {
 		const data = await fetch(YOUTUBE_COMMENTS_API + "&videoId=" + videoId);
 		const json = await data.json();
 		setComments(json.items);
+		console.log(json.items);
 	}
 	
 	const getVideoDetails = async() => {

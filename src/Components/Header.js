@@ -52,7 +52,7 @@ const Header = () => {
   }
 
   const handleSearchText = (suggestion) => {
-    //console.log("hi");
+    console.log("hi");
     searchText(suggestion);
     setSuggestions([]);
     
@@ -64,17 +64,17 @@ const Header = () => {
 
   return (
     <div className='fixed top-0 z-10 bg-white w-full flex shadow-xl p-5 ro '>
-        <div className='w-80 flex'>
+        <div className='w-80 flex items-center'>
           <img 
 		  	    onClick={()=>toggleMenuHandler()}
-            className='h-10 cursor-pointer' 
+            className='h-8 cursor-pointer align-middle' 
             alt='menu' 
             src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png' 
           /> 
           
          <a href="/">
           <img 
-            className='h-10' 
+            className='h-12' 
             alt='Logo' 
             src='https://t3.ftcdn.net/jpg/03/00/38/90/360_F_300389025_b5hgHpjDprTySl8loTqJRMipySb1rO0I.jpg' 
             /> 
@@ -96,22 +96,21 @@ const Header = () => {
           <button className='p-3 border border-gray-500 rounded-r-full'><FaSearch /></button>
           
         </div>
-        { showSuggestions && (
+        { showSuggestions && ( 
           <div className='fixed top-16 left-1/4 bg-white w-1/4 rounded-lg shadow-lg my-2'>
             <ul>
             {
               suggestions.map((suggestion) => (
               <li className='flex px-2 align-middle hover:bg-gray-200' 
                   key={suggestion} 
-                  onClick={() => handleSearchText(suggestion)}
-              >
+                  onClick={() => handleSearchText(suggestion)} >
                 {suggestion}
               </li>
               ))
             } 
             </ul>
           </div>
-        )}
+        )}  
 		<div>
            
 			user icon
