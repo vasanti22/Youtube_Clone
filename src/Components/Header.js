@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { YOUTUBE_SEARCH_API } from '../Utils/constants';
 import { FaSearch, FaWindowClose } from 'react-icons/fa';
 import { cacheResults } from '../Utils/searchSlice';
+//import { useNavigate } from "react-router-dom";
 
-
-//import { Link } from 'react-router-dom';
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -19,8 +18,8 @@ const Header = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const searchCache = useSelector((store) => store.search);
-   
-
+  //const navigate = useNavigate();
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       
@@ -52,10 +51,18 @@ const Header = () => {
   }
 
   const handleSearchText = (suggestion) => {
-    console.log("hi");
-    searchText(suggestion);
-    setSuggestions([]);
-    
+   console.log("hi");
+    setSearchText(suggestion);
+    setShowSuggestions(false);
+    setSuggestions([]); 
+   // handleFormSubmit();
+  }
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+   // navigate(`/results?search=${searchText}`);
+    setSearchText("");
+
   }
 
   const onClear = () => {
@@ -82,6 +89,7 @@ const Header = () => {
           
         </div>
         <div className='w-1/2 relative'>
+        <form onSubmit={handleFormSubmit}>
           <input 
 		  	    className='w-3/4 p-2 border border-gray-500 rounded-l-full'
             type='text' 
@@ -94,19 +102,18 @@ const Header = () => {
           />
           <button className='m-2 absolute insert-0 top-1 right-1/4' onClick={onClear}><FaWindowClose /></button>
           <button className='p-3 border border-gray-500 rounded-r-full'><FaSearch /></button>
-          
+          </form>
         </div>
         { showSuggestions && ( 
           <div className='fixed top-16 left-1/4 bg-white w-1/4 rounded-lg shadow-lg my-2'>
             <ul>
             {
-              suggestions.map((suggestion) => (
-              <li className='flex px-2 align-middle hover:bg-gray-200' 
-                  key={suggestion} 
-                  onClick={() => handleSearchText(suggestion)} >
-                {suggestion}
-              </li>
-              ))
+              suggestions && suggestions.map((suggestion, i) =>  {  
+              return(<li className='flex px-2 align-middle hover:bg-gray-200' key={i} onClick={() => handleSearchText(suggestion)} >
+                        {suggestion}
+                      </li>
+                    ) 
+              })
             } 
             </ul>
           </div>
