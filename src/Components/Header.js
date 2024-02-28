@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { toggleMenu } from '../Utils/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { YOUTUBE_SEARCH_API } from '../Utils/constants';
-import { FaSearch, FaWindowClose } from 'react-icons/fa';
+import { FaSearch, FaWindowClose, FaBell, FaUserCircle, FaYoutube } from 'react-icons/fa';
 import { cacheResults } from '../Utils/searchSlice';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Header = () => {
@@ -18,7 +18,7 @@ const Header = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const searchCache = useSelector((store) => store.search);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,27 +51,28 @@ const Header = () => {
   }
 
   const handleSearchText = (suggestion) => {
-   console.log("hi");
+   //console.log("hi");
     setSearchText(suggestion);
     setShowSuggestions(false);
     setSuggestions([]); 
-   // handleFormSubmit();
+    handleFormSubmit(suggestion);
   }
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-   // navigate(`/results?search=${searchText}`);
+  const handleFormSubmit = (suggestion) => {
+  //console.log("submit" + suggestion);
+    navigate("/results?search_query=" + suggestion);
     setSearchText("");
-
   }
 
   const onClear = () => {
-    setSearchText("");
+   setSearchText("");
+   setShowSuggestions(true);
+    //navigate("/");
   }
 
   return (
     <div className='fixed top-0 z-10 bg-white w-full flex shadow-xl p-5 ro '>
-        <div className='w-80 flex items-center'>
+        <div className='w-3/12 flex items-center'>
           <img 
 		  	    onClick={()=>toggleMenuHandler()}
             className='h-8 cursor-pointer align-middle' 
@@ -88,39 +89,45 @@ const Header = () => {
             </a>
           
         </div>
-        <div className='w-1/2 relative'>
-        <form onSubmit={handleFormSubmit}>
+        <div className='w-6/12 relative text-center'>
+        
           <input 
-		  	    className='w-3/4 p-2 border border-gray-500 rounded-l-full'
+		  	    className='w-3/4 p-2  border border-gray-500 rounded-l-full'
             type='text' 
             placeholder='Search' 
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onFocus={()=> setShowSuggestions(true)}
-            onBlur={()=>setShowSuggestions(false)}
+            //onBlur={()=>setShowSuggestions(false)}
             
           />
-          <button className='m-2 absolute insert-0 top-1 right-1/4' onClick={onClear}><FaWindowClose /></button>
+          <button className='m-2 absolute insert-0 right-28 top-1' onClick={onClear}><FaWindowClose /></button>
           <button className='p-3 border border-gray-500 rounded-r-full'><FaSearch /></button>
-          </form>
+
+          { showSuggestions && ( 
+            <div className='absolute top-10 left-2/4 -translate-x-2/4 bg-white rounded-lg shadow-2xl my-2 w-3/4 text-center'>
+              <ul>
+              {
+                suggestions && suggestions.map((suggestion, i) =>  {  
+                return(<li className='flex px-2 align-middle hover:bg-gray-200' key={i} onClick={() => handleSearchText(suggestion)} >
+                          {suggestion}
+                        </li>
+                      ) 
+                })
+              } 
+              </ul>
+            </div>
+          )}  
+          
         </div>
-        { showSuggestions && ( 
-          <div className='fixed top-16 left-1/4 bg-white w-1/4 rounded-lg shadow-lg my-2'>
-            <ul>
-            {
-              suggestions && suggestions.map((suggestion, i) =>  {  
-              return(<li className='flex px-2 align-middle hover:bg-gray-200' key={i} onClick={() => handleSearchText(suggestion)} >
-                        {suggestion}
-                      </li>
-                    ) 
-              })
-            } 
-            </ul>
-          </div>
-        )}  
-		<div>
-           
-			user icon
+        
+		<div className='w-3/12 flex'>
+    <div className='flex ml-auto text-3xl align-middle gap-3 items-center'>
+      <FaYoutube className='cursor-pointer'/>
+      <FaBell className='cursor-pointer'/>
+      <FaUserCircle className='cursor-pointer'/>
+    </div>
+      
 		</div>
     </div>
   )

@@ -7,8 +7,8 @@ const VideoCards = ({ info }) => {
     const { channelTitle, title, thumbnails, publishedAt } = snippet;
     
     return (
-        <div className='w-80  m-2 shadow-lg'>
-            <img className='rounded-lg' alt="Thumbnail" src={thumbnails.medium.url}/>
+        <div className='m-2 shadow-lg'>
+            <img className='rounded-lg w-full' alt="Thumbnail" src={thumbnails.medium.url}/>
             <div className='p-3'>
                 <h1 className='font-bold h-12 text-ellipsis overflow-hidden'>{title}</h1>
                 <h3>{channelTitle}</h3>
